@@ -20,7 +20,7 @@ LIVEKITNAME="yiffOS-linux"
 VMLINUZ=/vmlinuz
 
 # this won't run on anything but a very specific yiffOS environment --husky
-KERNEL=$(env INSTALL_ROOT=/mnt/root bulge list | grep -e "^linux " | grep -oP "[\d\.]+-")
+KERNEL="$(env INSTALL_ROOT=/mnt/root bulge list | grep -e "^linux " | grep -oP "[\d\.]+-")yiffOS"
 
 # List of directories for root filesystem
 # No subdirectories are allowed, no slashes,
