@@ -14,8 +14,17 @@
 # and you're done.
 LIVEKITNAME="linux"
 
-# this won't run on anything but a very specific yiffOS environment --husky
-KERNEL="$(env INSTALL_ROOT=/mnt/root bulge list | grep -e "^linux " | grep -oP "[\d\.]+-")yiffOS"
+function kver() {
+    if [ $(which bulge) = "" ]; then
+        # we can assume we're in an initramfs environment
+        echo "$(uname -r)"
+    else
+        # we can assume we're in the install environment
+        echo "$(env INSTALL_ROOT=/mnt/root bulge list | grep -e "^linux " | grep -oP "[\d\.]+-")yiffOS"
+    fi
+}
+
+KERNEL=$(kver)
 
 # Kernel file, will be copied to your Live Kit
 # Your kernel must support aufs and squashfs. Debian Jessie's kernel is ready
