@@ -19,7 +19,10 @@ copy_including_deps()
       return
    fi
 
-   cp -R --parents "$1" "$INITRAMFS"
+   echo "Copying $1 to $INITRAMFS/$TARGET"
+
+   mkdir -p "$INITRAMFS"/"$(dirname "$TARGET")"
+   cp -R "$1" "$INITRAMFS"
    if [ -L "$1" ]; then
       DIR="$(dirname "$1")"
       LNK="$(readlink "$1")"
