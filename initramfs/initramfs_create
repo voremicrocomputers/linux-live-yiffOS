@@ -13,7 +13,9 @@ INITRAMFS=/tmp/$LIVEKITNAME-initramfs-$$
 copy_including_deps()
 {
    # if source doesn't exist or target exists, do nothing
-   if [ ! -e "$1" -o -e "$INITRAMFS"/"$1" ]; then
+   TARGET="$(echo "$1" | sed "s/\/mnt\/root//")"
+   if [ ! -e "$1" -o -e "$INITRAMFS"/"$TARGET" ]; then
+      echo "Skipping $1"
       return
    fi
 
@@ -26,12 +28,12 @@ copy_including_deps()
 
    ldd "$1" 2>/dev/null | sed -r "s/.*=>|[(].*//g" | sed -r "s/^\\s+|\\s+\$//" \
      | while read LIB; do
-        copy_including_deps "$LIB"
+        copy_including_deps /mnt/root/"$LIB"
      done
 
    for MOD in $(find "$1" -type f | grep .ko); do
       for DEP in $(cat /mnt/root/$LMK/modules.dep | fgrep /$(basename $MOD):); do
-         copy_including_deps "/$LMK/$DEP"
+         copy_including_deps "/mnt/root/$LMK/$DEP"
       done
    done
 

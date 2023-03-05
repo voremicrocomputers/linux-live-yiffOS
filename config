@@ -12,15 +12,15 @@
 # If you do not need booting from CD (eg you're booting only from USB)
 # then you can ignore recompiling isolinux.bin, just rename LIVEKITNAME
 # and you're done.
-LIVEKITNAME="yiffOS-linux"
+LIVEKITNAME="linux"
+
+# this won't run on anything but a very specific yiffOS environment --husky
+KERNEL="$(env INSTALL_ROOT=/mnt/root bulge list | grep -e "^linux " | grep -oP "[\d\.]+-")yiffOS"
 
 # Kernel file, will be copied to your Live Kit
 # Your kernel must support aufs and squashfs. Debian Jessie's kernel is ready
 # out of the box.
-VMLINUZ=/vmlinuz
-
-# this won't run on anything but a very specific yiffOS environment --husky
-KERNEL="$(env INSTALL_ROOT=/mnt/root bulge list | grep -e "^linux " | grep -oP "[\d\.]+-")yiffOS"
+VMLINUZ=/mnt/root/boot/vmlinuz-$KERNEL
 
 # List of directories for root filesystem
 # No subdirectories are allowed, no slashes,
