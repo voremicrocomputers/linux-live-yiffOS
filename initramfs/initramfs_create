@@ -3,6 +3,13 @@
 # Author: Tomas M <http://www.linux-live.org/>
 #
 
+function kver() {
+    # we can assume we're in the install environment
+    echo "$(env INSTALL_ROOT=/mnt/root bulge list | grep -e "^linux " | grep -oP "[\d\.]+-")yiffOS"
+}
+
+sed -i "s/REPLACEME/$(kver)/g" ../config
+
 . ../config
 
 INITRAMFS=/tmp/$LIVEKITNAME-initramfs-$$
