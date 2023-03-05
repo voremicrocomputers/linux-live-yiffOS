@@ -15,11 +15,8 @@ copy_including_deps()
    # if source doesn't exist or target exists, do nothing
    TARGET="$(echo "$1" | sed "s/\/mnt\/root//")"
    if [ ! -e "$1" -o -e "$INITRAMFS"/"$TARGET" ]; then
-      echo "Skipping $1"
       return
    fi
-
-   echo "Copying $1 to $INITRAMFS/$TARGET"
 
    mkdir -p "$INITRAMFS"/"$(dirname "$TARGET")"
    cp -R "$1" "$INITRAMFS"
